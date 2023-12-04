@@ -65,7 +65,7 @@ def random_sample(modelName, k):
 
         rgb_img = images[0].numpy()
         rgb_img = np.transpose(rgb_img, (1, 2, 0))
-        rgb_img = (rgb_img - np.min(rgb_img)) / (np.max(rgb_img) - np.min(rgb_img))  # 转numpy使像素值出现大于1的情况，归一化
+        rgb_img = (rgb_img - np.min(rgb_img)) / (np.max(rgb_img) - np.min(rgb_img))  # Convert to numpy to make pixel values greater than 1, and then normalize
 
         heatmap, visualization, orgImage, camArr = getcam(model, images, target_layer, labels[0], rgb_img)
 

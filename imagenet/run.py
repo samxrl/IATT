@@ -138,4 +138,7 @@ if __name__ == "__main__":
     iters = args.iters
     step = args.step
 
+    if modelName not in ['resnet50', 'inception_v3', 'densenet161']:
+        raise Exception("model mast in ['resnet50','inception_v3','densenet161']")
+
     generateTransferableTest(modelName, iters, step)

@@ -1,0 +1,9 @@
+torch==1.13.1+cu116
+torchvision==0.14.1+cu116
+grad-cam==1.4.8
+IQA-pytorch==0.1
+numpy==1.24.4
+opencv-python==4.8.1.78
+Pillow==10.1.0
+torch-dreams==4.0.0
+tqdm==4.66.1

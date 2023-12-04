@@ -51,10 +51,8 @@ class myDreamer(Dreamer):
             image_parameter = deepcopy(image_parameter)
 
         if image_parameter.optimizer is None:
-            image_parameter.optimizer = image_parameter.fetch_optimizer(params_list=[image_parameter.param],
-                                                                        optimizer=torch.optim.SGD, lr=lr,
-                                                                        weight_decay=weight_decay)
-            # image_parameter.get_optimizer(lr=lr, weight_decay=weight_decay)
+
+            image_parameter.get_optimizer(lr=lr, weight_decay=weight_decay)
 
         if self.transforms is None:
             self.get_default_transforms(
@@ -104,6 +102,7 @@ class myDreamer(Dreamer):
                     [img_transformed, mask_transformed, original_image_transformed]
                 )
 
+                # perturbation masking
                 img = img_transformed * mask_transformed.to(self.device) + original_image_transformed.float() * (
                         1 - mask_transformed.to(self.device))
 
@@ -130,21 +129,19 @@ class myDreamer(Dreamer):
                 loss = self.default_func(layer_outputs)
             loss.backward()
             image_parameter.clip_grads(grad_clip=grad_clip)
+
+            # Generate global perturbations
             image_parameter.optimizer.step()
 
             lable = int(saveFileName.split('/')[-1].split('-')[0])
 
             if (i + 1) % step == 0:
 
-                print('Generating iters_{} {}'.format(i + 1, saveFileName.replace('itersN', str(i + 1))))
+                # print('Generating iters_{} {}'.format(i + 1, saveFileName.replace('itersN', str(i + 1))))
                 image_parameter.save(saveFileName.replace('itersN', str(i + 1)))
 
                 if isinstance(image_parameter, MaskedImageParam):
 
-                    if saveFileName.split('/')[1] == 'pull':
-                        pull = True
-                    else:
-                        pull = False
 
                     if isinstance(model, Inception3):
                         target_layers = [model.Mixed_7c]
@@ -159,8 +156,6 @@ class myDreamer(Dreamer):
                     # Preprocess the image
                     preprocess = transforms.Compose([
                         transforms.ToTensor(),
-                        # transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                        #                      std=[0.229, 0.224, 0.225])
                     ])
 
                     images = Image.open(saveFileName.replace('itersN', str(i + 1)))
@@ -171,7 +166,7 @@ class myDreamer(Dreamer):
                     rgb_img = images[0].cpu().numpy()
                     rgb_img = np.transpose(rgb_img, (1, 2, 0))
                     rgb_img = (rgb_img - np.min(rgb_img)) / (
-                            np.max(rgb_img) - np.min(rgb_img))  # 转numpy使像素值出现大于1的情况，归一化
+                            np.max(rgb_img) - np.min(rgb_img))  # Turn numpy to make pixel values appear greater than 1. Normalization
 
                     heatmap, visualization, orgImage, camArr = getcam(model, images, target_layers, lable, rgb_img)
                     camArr = cv2.resize(camArr, (orgImage.shape[1], orgImage.shape[0]), interpolation=cv2.INTER_LINEAR)
@@ -179,10 +174,9 @@ class myDreamer(Dreamer):
                     mask = torch.from_numpy(camArr)
                     mask = mask.unsqueeze(0).unsqueeze(0)
                     image_parameter.update_mask(mask)
-                    if pull:
-                        path = saveFileName.split('iters_')[0].replace(modelName, modelName + '/CAM')
-                    else:
-                        path = saveFileName.split('iters_')[0].replace(modelName, modelName + '/CAM')
+
+
+                    path = saveFileName.split('iters_')[0]+'CAM/'
                     path = path + saveFileName.split('/')[-1].split(',')[0]
 
                     if os.path.exists(path) is not True:
