@@ -1,6 +1,6 @@
 # IATT
 
-IATT is an Interpretation Analysis based Transferable Test Generation for Convolutional Neural Networks. The workflow of
+IATT is an Interpretation Analysis based Transferable Test Generation Method for Convolutional Neural Networks. The workflow of
 IATT is illustrated in the following figure:
 
 ![The Workflow of IATT](/images/workflow.svg "The Workflow of IATT")
@@ -11,6 +11,7 @@ Suggest installing IATT in `Python 3.8` or higher versions, and run it on a CUDA
 the following command to install all the packages required by IATT.
 
 ```bash
+pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 pip install -r requirements.txt
 ```
 
