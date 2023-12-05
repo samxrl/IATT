@@ -18,7 +18,8 @@ pip install -r requirements.txt
 
 ## Usage
 
-Due to the different handling of models and test inputs, we have placed the code for ImageNet and CIFAR-10 in two
+Due to the different handling of models and test inputs, we have placed the code for `ImageNet` and `CIFAR-10` dataset
+in two
 separate directories. Unless otherwise specified, `.py` files with the same file name in both directories have the same
 functionality and share the same parameters.
 

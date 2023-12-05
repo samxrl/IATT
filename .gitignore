@@ -6,3 +6,4 @@ imagenet/data/val
 samples
 .idea
 cifar10/model
+.gitignore
