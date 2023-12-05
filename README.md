@@ -50,17 +50,17 @@ we utilized the pre-trained models provided by [PyTorch](https://pytorch.org/vis
 
 #### for CIFAR-10
 
-we chose `ResNet-50` as WSM out from the ImageNet image classification models, and `VGG16`, `DenseNet-161`, `Inception V3` as BTMs. To classify the images in the CIFAR-10 dataset with the above models, we performed transfer learning on the four pre-trained models using the CIFAR-10 dataset.
+To classify the images in the CIFAR-10 dataset with the imageNet's pre-trained models, we performed transfer learning on the four pre-trained models using the CIFAR-10 dataset.
 
-You can download the models trained in our experiments [here](https://drive.google.com/drive/folders/1GVcJGUl02UR8p-YVYCJ9Q9xZKlz0liKG?usp=sharing) and put them in `cifar10/model`, or run `train.py` to train the models yourself:
+You download the `.ckpt` weight files of the models we trained in the experiment [here](https://drive.google.com/drive/folders/1GVcJGUl02UR8p-YVYCJ9Q9xZKlz0liKG?usp=sharing) and put them in `cifar10/model`, or run `train.py` to train the models yourself:
 
 ```bash
-python train.py --model <Name of WSM> --epochs <Number of epochs> --batch <batch_size> --lr <learning_rate>
+python train.py --model <Name of trained model> --epochs <Number of epochs> --batch <batch_size> --lr <learning_rate>
 ```
 
 **parameters**
 
-* `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, `densenet161`, or `vgg16`.
+* `model`: Name of trained model. Only supports `resnet50`(default), `inception_v3`, `densenet161`, or `vgg16`.
 * `epochs`,`batch`,`lr`: Hyperparameters
   * To achieve high accuracy, we recommend setting the following hyperparameters:
     * `epochs` : 50
