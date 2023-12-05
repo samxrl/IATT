@@ -63,7 +63,35 @@ python train.py --model <Name of WSM> --epochs <Number of epochs> --batch <batch
         * `batch`: 50
         * `lr`: 0.001
 
-### 2. Sample original test input
+### 2. Dataset format
+
+#### for ImageNet
+
+We sample original test inputs from the validation set of ImageNet2012 (ILSVRC2012). You can download our formatted
+validation set [here](https://drive.google.com/file/d/1As-8IfRNbcQjAR3ev7GIHFtv2bzclXal/view?usp=sharing), or the complete official
+dataset [here](https://image-net.org/challenges/LSVRC/2012/2012-downloads.php). Then, place the validation set in
+the `imagenet` directory
+following this directory structure:
+
+```bash
+imagenet       
+    └─data
+       ├─synset_words.txt # imageNet label ID and description correspondence                     
+       └─val                     
+           ├─n01440764 # The directory storing images with the label ID n01440764.
+           │  ├─ILSVRC2012_val_00000293.JPEG
+           │  ├─ILSVRC2012_val_00002138.JPEG
+           │  ├─......         
+           ├─n01443537   
+           ├─......        
+```
+
+#### for CIFAR-10
+
+We use `torchvision` to download and load the `CIFAR-10` dataset. Upon first download, a directory named `data` will be
+created in the project's root directory to store the dataset. No additional processing is required.
+
+### 3. Sample original test input
 
 For each dataset, we randomly selected images that had been correctly
 classified by WSM as the original test inputs to generate test inputs.
@@ -79,19 +107,21 @@ python random_sample.py --model <Name of WSM> --K <Number of original test input
 * `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
 * `K`: The number of original test inputs, defaulting to `1000`
 
-For each dataset, the following directories are automatically created to store the sampled original test inputs and their
+For each dataset, the following directories are automatically created to store the sampled original test inputs and
+their
 interpretation analysis results (CAMs):
 
 ```bash
-samples
-└─<Name of WSM>
-    ├─CAMarr # .npy files, stored in the format of numpy arrays for CAMs
-    ├─heatmap # .jpg files, CAM visualization (heat map)
-    ├─org # .jpg files, original test input images
-    └─visualization # .jpg files, Visualization of the CAM superimposed on the original test inputs
+<dataset>
+  └─samples
+        └─<Name of WSM>
+            ├─CAMarr # .npy files, stored in the format of numpy arrays for CAMs
+            ├─heatmap # .jpg files, CAM visualization (heat map)
+            ├─org # .jpg files, sampled original test input images
+            └─visualization # .jpg files, Visualization of the CAM superimposed on the original test inputs
 ```
 
-### 3. Generate Transferable Tests
+### 4. Generate Transferable Tests
 
 
 
