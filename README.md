@@ -35,16 +35,16 @@ the `imagenet` directory
 following this directory structure:
 
 ```bash
-imagenet       
+imagenet     
     └─data
-       ├─synset_words.txt # imageNet label ID and description correspondence (already exists)                     
-       └─val                     
+       ├─synset_words.txt # imageNet label ID and description correspondence (already exists)                   
+       └─val                   
            ├─n01440764 # The directory storing images with the label ID n01440764
            │  ├─ILSVRC2012_val_00000293.JPEG
            │  ├─ILSVRC2012_val_00002138.JPEG
-           │  ├─......         
+           │  ├─......       
            ├─n01443537   
-           ├─......        
+           ├─......
 ```
 
 #### for CIFAR-10
@@ -84,12 +84,13 @@ python train.py --model <Name of WSM> --epochs <Number of epochs> --batch <batch
 ```
 
 **parameters**
+
 * `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
 * `epochs`,`batch`,`lr`: Hyperparameters
-    * To achieve high accuracy, we recommend setting the following hyperparameters:
-        * `epochs` : 50
-        * `batch` : 50
-        * `lr` : 0.001
+  * To achieve high accuracy, we recommend setting the following hyperparameters:
+    * `epochs` : 50
+    * `batch` : 50
+    * `lr` : 0.001
 
 ### 3. Sample original test input
 
@@ -103,6 +104,7 @@ python random_sample.py --model <Name of WSM> --K <Number of original test input
 ```
 
 **parameters**
+
 * `model` : Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
 * `K` : The number of original test inputs, defaulting to `1000`
 
@@ -126,15 +128,14 @@ IATT generat transferable test inputs by analyzing the internal information of t
 with the similar function to WSM.
 
 Run `run.py` to generate transferable test inputs:
+
 ```bash
 python run.py --model <Name of WSM> --iters <Number of iterations> --step <Iteration interval for each CAM update>
 ```
+
 **parameters**
+
 * `model` : Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
 * `iters` : Number of iterations, defaulting to `300`
 * `step` : Iteration interval for each CAM update, defaulting to `20`
-
-
-
-
 
