@@ -1,6 +1,9 @@
 # IATT
 
-IATT is an Interpretation Analysis based Transferable Test Generation for Convolutional Neural Networks.
+IATT is an Interpretation Analysis based Transferable Test Generation for Convolutional Neural Networks. The workflow of
+IATT is illustrated in the following figure:
+
+![The Workflow of IATT](/images/workflow.svg "The Workflow of IATT")
 
 ## Install
 
@@ -36,20 +39,22 @@ above models, we performed transfer learning on the four pre-trained models usin
 dataset.
 
 You can download the models trained in our
-experiments [here](https://drive.google.com/drive/folders/1GVcJGUl02UR8p-YVYCJ9Q9xZKlz0liKG?usp=sharing) and put them in `cifar10/model`, or run
+experiments [here](https://drive.google.com/drive/folders/1GVcJGUl02UR8p-YVYCJ9Q9xZKlz0liKG?usp=sharing) and put them
+in `cifar10/model`, or run
 `train.py` to train the models yourself:
 
 ```bash
 python train.py --model <Name of WSM> --epochs <Number of epochs> --batch <batch_size> --lr <learning_rate>
 ```
+
 **parameter**
+
 * `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
 * `epochs`,`batch`,`lr`: Hyperparameters
-  * To achieve high accuracy, we recommend setting the following hyperparameters:
-    * `epochs` : 50
-    * `batch`: 50
-    * `lr`: 0.001
-
+    * To achieve high accuracy, we recommend setting the following hyperparameters:
+        * `epochs` : 50
+        * `batch`: 50
+        * `lr`: 0.001
 
 ### Sample original test input
 
