@@ -1,6 +1,7 @@
 # IATT
 
-IATT is an Interpretation Analysis based Transferable Test Generation Method for Convolutional Neural Networks. The workflow of
+IATT is an Interpretation Analysis based Transferable Test Generation Method for Convolutional Neural Networks. The
+workflow of
 IATT is illustrated in the following figure:
 
 ![The Workflow of IATT](/images/workflow.svg "The Workflow of IATT")
@@ -16,6 +17,10 @@ pip install -r requirements.txt
 ```
 
 ## Usage
+
+Due to the different handling of models and test inputs, we have placed the code for ImageNet and CIFAR-10 in two
+separate directories. Unless otherwise specified, `.py` files with the same file name in both directories have the same
+functionality and share the same parameters.
 
 ### Get models
 
