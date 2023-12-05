@@ -111,7 +111,7 @@ python run.py --model <Name of WSM> --iters <Number of iterations> --step <Itera
 * `iters` : Number of iterations, defaulting to `300`
 * `step` : Iteration interval for each CAM update, defaulting to `20`
 
-For each dataset, the following directories are automatically created to store the transferable test inputs and their interpretive analysis results generated in each `step` of iteration：
+For each dataset, the following directories are automatically created to store the generated transferable test inputs and their interpretation analysis results generated in each `step` of iteration：
 
 ```bash
 <dataset>

@@ -1,23 +1,23 @@
-import numpy as np
-import os
-from uitils.get_lable import get_lable
-from uitils.gradCAM import getcam
-import shutil
-import torchvision.models as models
-from torchvision.models import Inception3, ResNet, DenseNet
-from torchvision import transforms
-from torch.utils.data import DataLoader
-from torch_dreams.masked_image_param import MaskedImageParam
-from uitils.myDreamer import myDreamer
-import random
-import torchvision
-import torch
 import argparse
 import cv2
 import gc
+import numpy as np
+import os
+import random
+import shutil
+import torch
+import torchvision
+import torchvision.models as models
+from torch.utils.data import DataLoader
+from torch_dreams.masked_image_param import MaskedImageParam
+from torchvision import transforms
+from torchvision.models import Inception3, ResNet, DenseNet
+
+from uitils.get_lable import get_lable
+from uitils.gradCAM import getcam
+from uitils.myDreamer import myDreamer
 
 
-# 从训练集中随机取样生成CAM
 def generateTransferableTest(modelName, iters=300, step=20):
     myModels = {'resnet50': models.resnet50(pretrained=True).to(device),
                 'inception_v3': models.inception_v3(pretrained=True).to(device),
@@ -55,7 +55,6 @@ def generateTransferableTest(modelName, iters=300, step=20):
 
     dreamy_boi = myDreamer(model, device='cuda')
 
-    # 确定目标层
     if modelName in ['resnet50', 'inception_v3']:
         layers_to_use = [model.fc]
     else:  # densenet161
@@ -79,14 +78,14 @@ def generateTransferableTest(modelName, iters=300, step=20):
                         'samples/{}/transferable tests/iters_{}'.format(modelName, i)) is not True:
                     os.makedirs('samples/{}/transferable tests/iters_{}'.format(modelName, i))
 
-            # 查找所生成图像是否存在
             if found('samples/{}/transferable tests/iters_{}'.format(modelName, iters), filename):
                 print('exist {}'.format(filename))
                 continue
 
             mask = makeMask(CAMarr)
 
-            saveFileName = 'samples/{}/transferable tests/iters_itersN/{}.jpg'.format(modelName,filename.split('.jp')[0])
+            saveFileName = 'samples/{}/transferable tests/iters_itersN/{}.jpg'.format(modelName,
+                                                                                      filename.split('.jp')[0])
             try:
                 featureVisualization(layers_to_use, iters, step, classN, image, mask, dreamy_boi,
                                      saveFileName, model)
@@ -101,7 +100,7 @@ def makeMask(CAMarr):
     return mask
 
 
-def normalization(data):  # 归一化
+def normalization(data):
     _range = np.max(data) - np.min(data)
     return (data - np.min(data)) / _range
 
