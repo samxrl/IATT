@@ -28,7 +28,8 @@ functionality and share the same parameters.
 #### for ImageNet
 
 We sample original test inputs from the validation set of ImageNet2012 (ILSVRC2012). You can download our formatted
-validation set [here](https://drive.google.com/file/d/1As-8IfRNbcQjAR3ev7GIHFtv2bzclXal/view?usp=sharing), or the complete official
+validation set [here](https://drive.google.com/file/d/1As-8IfRNbcQjAR3ev7GIHFtv2bzclXal/view?usp=sharing), or the
+complete official
 dataset [here](https://image-net.org/challenges/LSVRC/2012/2012-downloads.php). Then, place the validation set in
 the `imagenet` directory
 following this directory structure:
@@ -36,9 +37,9 @@ following this directory structure:
 ```bash
 imagenet       
     └─data
-       ├─synset_words.txt # imageNet label ID and description correspondence                     
+       ├─synset_words.txt # imageNet label ID and description correspondence (already exists)                     
        └─val                     
-           ├─n01440764 # The directory storing images with the label ID n01440764.
+           ├─n01440764 # The directory storing images with the label ID n01440764
            │  ├─ILSVRC2012_val_00000293.JPEG
            │  ├─ILSVRC2012_val_00002138.JPEG
            │  ├─......         
@@ -83,19 +84,17 @@ python train.py --model <Name of WSM> --epochs <Number of epochs> --batch <batch
 ```
 
 **parameters**
-
 * `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
 * `epochs`,`batch`,`lr`: Hyperparameters
     * To achieve high accuracy, we recommend setting the following hyperparameters:
         * `epochs` : 50
-        * `batch`: 50
-        * `lr`: 0.001
-
+        * `batch` : 50
+        * `lr` : 0.001
 
 ### 3. Sample original test input
 
 For each dataset, we randomly selected images that had been correctly
-classified by WSM as the original test inputs to generate test inputs.
+classified by WSM as the original test inputs.
 
 Run `random_sample.py` to randomly sample original test inputs from the test set of the dataset:
 
@@ -104,9 +103,8 @@ python random_sample.py --model <Name of WSM> --K <Number of original test input
 ```
 
 **parameters**
-
-* `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
-* `K`: The number of original test inputs, defaulting to `1000`
+* `model` : Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
+* `K` : The number of original test inputs, defaulting to `1000`
 
 For each dataset, the following directories are automatically created to store the sampled original test inputs and
 their
@@ -123,6 +121,19 @@ interpretation analysis results (CAMs):
 ```
 
 ### 4. Generate Transferable Tests
+
+IATT generat transferable test inputs by analyzing the internal information of the WSM and use them to test the BTMs
+with the similar function to WSM.
+
+Run `run.py` to generate transferable test inputs:
+```bash
+python run.py --model <Name of WSM> --iters <Number of iterations> --step <Iteration interval for each CAM update>
+```
+**parameters**
+* `model` : Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
+* `iters` : Number of iterations, defaulting to `300`
+* `step` : Iteration interval for each CAM update, defaulting to `20`
+
 
 
 
