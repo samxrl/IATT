@@ -60,7 +60,7 @@ python train.py --model <Name of WSM> --epochs <Number of epochs> --batch <batch
 
 **parameters**
 
-* `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
+* `model`: Name of WSM. Only supports `resnet50`(default), `inception_v3`, `densenet161`, or `vgg16`.
 * `epochs`,`batch`,`lr`: Hyperparameters
   * To achieve high accuracy, we recommend setting the following hyperparameters:
     * `epochs` : 50
