@@ -117,20 +117,21 @@ For each dataset, the following directories are automatically created to store t
 <dataset>
   └─samples
         └─<Name of WSM>
-            ├─transferable tests
-            │  ├─iters_<step>
-            │  │  ├─<lable ID>-<image ID>-<lable description>.jpg # generated transferable test
-            │  │  ├─......
-            │  ├─......
-            └─CAM # Storing interpretation analysis results at each step of iteration
-               ├─<lable ID>-<image ID>-<lable description> # CAM of same-name transferable test inputs
-               │  ├─heatmap
-               │  │  ├─iters_<step>-<lable ID>-<image ID>-<lable description>.jpg 
-               │  │  ├─......
-               │  └─visualization
-               │     ├─iters_<step>-<lable ID>-<image ID>-<lable description>.jpg
-               │     ├─......
+            └─transferable tests
+               ├─iters_<step>
+               │  ├─<lable ID>-<image ID>-<lable description>.jpg # generated transferable test
+               │  ├─......
+               ├─iters_<step*2>
                ├─......
+               └─CAM # Storing interpretation analysis results at each step of iteration
+                  ├─<lable ID>-<image ID>-<lable description> # CAM of same-name transferable test inputs
+                  │  ├─heatmap
+                  │  │  ├─iters_<step>-<lable ID>-<image ID>-<lable description>.jpg 
+                  │  │  ├─......
+                  │  └─visualization
+                  │     ├─iters_<step>-<lable ID>-<image ID>-<lable description>.jpg
+                  │     ├─......
+                  ├─......
 ```
 
 The generated transferable test inputs will maintain the same size as the original test inputs.
