@@ -121,7 +121,7 @@ For each dataset, the following directories are automatically created to store t
                ├─iters_<step>
                │  ├─<lable ID>-<image ID>-<lable description>.jpg # generated transferable test
                │  ├─......
-               
+               ├─iters_<step*2>
                ├─......
                └─CAM # Storing interpretation analysis results at each step of iteration
                   ├─<lable ID>-<image ID>-<lable description> # CAM of same-name transferable test inputs
