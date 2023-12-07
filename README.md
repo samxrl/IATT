@@ -60,7 +60,7 @@ python train.py --model <Name of trained model> --epochs <Number of epochs> --ba
 
 **parameters**
 
-* `model`: Name of trained model. Only supports `resnet50`(default), `inception_v3`, `densenet161`, or `vgg16`.
+* `model`: Name of trained model. Options: `resnet50`(default), `inception_v3`, `densenet161`, or `vgg16`.
 * `epochs`,`batch`,`lr`: Hyperparameters
   * To achieve high accuracy, we recommend setting the following hyperparameters:
     * `epochs` : 50
@@ -107,7 +107,7 @@ python run.py --model <Name of WSM> --iters <Number of iterations> --step <Itera
 
 **parameters**
 
-* `model` : Name of WSM. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
+* `model` : Name of WSM. Options: `resnet50`(default), `inception_v3`, or `densenet161`.
 * `iters` : Number of iterations, defaulting to `300`
 * `step` : Iteration interval for each CAM update, defaulting to `20`
 
@@ -148,7 +148,7 @@ python test_ESR.py --model <Name of WSM> --iters <Number of iterations>
 ```
 
 **parameters**
-* `model` : WSM of generated transferable test inputs. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
+* `model` : WSM of generated transferable test inputs. Options: `resnet50`(default), `inception_v3`, or `densenet161`.
 * `iters` : Transferable test inputs generated on which iteration, defaulting to `300`
 
 The ESR of test each BTM with transferable test inputs will be printed in the terminal.
@@ -161,7 +161,7 @@ python test_LPIPS.py --model <Name of WSM> --iters <Number of iterations>
 ```
 
 **parameters**
-* `model` : WSM of generated transferable test inputs. Only supports `resnet50`(default), `inception_v3`, or `densenet161`.
+* `model` : WSM of generated transferable test inputs. Options: `resnet50`(default), `inception_v3`, or `densenet161`.
 * `iters` : Transferable test inputs generated on which iteration, defaulting to `300`
 
 The average LPIPS of transferable test inputs will be printed in the terminal.
