@@ -60,6 +60,9 @@ def random_sample(modelName, k):
 
         _, predicted = torch.topk(output.data, k=5)
 
+        a = labels[0].item()
+        b = predicted[0][0]
+
         if labels[0].item() != predicted[0][0]:
             continue
 

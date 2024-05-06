@@ -1,20 +1,9 @@
 import argparse
-import cv2
-import gc
 import numpy as np
 import os
-import random
-import shutil
 import torch
-import torchvision
 import torchvision.models as models
-from torch.utils.data import DataLoader
 from torch_dreams.masked_image_param import MaskedImageParam
-from torchvision import transforms
-from torchvision.models import Inception3, ResNet, DenseNet
-
-from uitils.get_lable import get_lable
-from uitils.gradCAM import getcam
 from uitils.myDreamer import myDreamer
 
 

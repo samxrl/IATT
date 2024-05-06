@@ -46,8 +46,8 @@ def random_sample(modelName, k):
         transforms.Resize(224, interpolation=transforms.InterpolationMode.BICUBIC)
     ])
 
-    test_dataset = torchvision.datasets.CIFAR10(root='../data/',
-                                                train=False,
+    test_dataset = torchvision.datasets.SVHN(root='../data/',
+                                                split='test',
                                                 transform=test_transform)
 
     val_dataset_loader = DataLoader(test_dataset, batch_size=1, shuffle=True)
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     device = torch.device('cuda')
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", "-model",
-                        default='resnet50',
+                        default='inception_v3',
                         type=str,
                         help="Name of WSM")
     parser.add_argument("--K", "-k",
