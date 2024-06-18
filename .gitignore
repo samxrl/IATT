@@ -10,5 +10,5 @@ cifar10/samples
 SVHN/model
 SVHN/samples
 COCO/model
-COCO/data
 COCO/samples
+COCO/data
