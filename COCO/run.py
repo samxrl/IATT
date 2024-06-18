@@ -2,9 +2,9 @@ import argparse
 import numpy as np
 import os
 import torch
-import torch.nn as nn
 import torchvision.models as models
 from torch_dreams.masked_image_param import MaskedImageParam
+import torch.nn as nn
 from uitils.myDreamer import myDreamer
 
 
@@ -18,12 +18,13 @@ def generateTransferableTest(modelName, iters=300, step=20):
     # Replace the original fully connected layer with a fully connected layer that has 10 output units.
     if modelName in ['resnet50', 'inception_v3']:
         inchannel = model.fc.in_features
-        model.fc = nn.Linear(inchannel, 10)
+        model.fc = nn.Linear(inchannel, 90 + 1)
     else:  # densenet161
         inchannel = model.classifier.in_features
-        model.classifier = nn.Linear(inchannel, 10)
+        model.classifier = nn.Linear(inchannel, 90 + 1)
 
     model.load_state_dict(torch.load('model/{}.ckpt'.format(modelName)))
+    model.to(device)
     model.eval()
 
     def make_custom_func(classN):

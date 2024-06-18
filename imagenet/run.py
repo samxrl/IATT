@@ -22,6 +22,7 @@ def generateTransferableTest(modelName, iters=300, step=20):
 
         return custom_func
 
+    # 实例化渲染图像对象
     def featureVisualization(layers_to_use, iters, step, classN, img, mask, dreamy_boi, saveFileName, model):
         my_custom_func = make_custom_func(classN)
         param = MaskedImageParam(image=img, mask_tensor=mask, device='cuda')

@@ -1,54 +1,44 @@
 import torchvision.models as models
 import torch
 from PIL import Image
-import torch.nn as nn
 from torchvision import transforms
 import os
 from tqdm import tqdm
 import argparse
 import numpy as np
 
-def getModel(modelName):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    myModels = {'resnet50': models.resnet50(pretrained=True),
-                'vgg16': models.vgg16(pretrained=True),
-                'inception_v3': models.inception_v3(pretrained=True),
-                'densenet161': models.densenet161(pretrained=True)}
-
-    model = myModels[modelName]
-
-    # Replace the original fully connected layer with a fully connected layer that has 10 output units.
-    if modelName in ['resnet50', 'inception_v3']:
-        inchannel = model.fc.in_features
-        model.fc = nn.Linear(inchannel, 10)
-    elif modelName == 'vgg16':
-        inchannel = model.classifier[6].in_features
-        model.classifier[6] = nn.Linear(inchannel, 10)
-    else:  # densenet161
-        inchannel = model.classifier.in_features
-        model.classifier = nn.Linear(inchannel, 10)
-
-    model.load_state_dict(torch.load('model/{}.ckpt'.format(modelName)))
-    return model.to(device)
-
 
 def getESR(modelName, iters):
-    model1 = getModel('resnet50')
-    model2 = getModel('vgg16')
-    model3 = getModel('inception_v3')
-    model4 = getModel('densenet161')
+    model1 = models.resnet50(pretrained=True)
+    model2 = models.resnet101(pretrained=True)
+    model3 = models.resnet152(pretrained=True)
+    model4 = models.vgg16(pretrained=True)
+    model5 = models.densenet161(pretrained=True)
+    model6 = models.inception_v3(pretrained=True)
+    model7 = models.vit_b_16(pretrained=True)
+    model8 = models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+    model9 = models.detection.maskrcnn_resnet50_fpn_v2(pretrained=True)
 
     model1.eval()
     model2.eval()
     model3.eval()
     model4.eval()
-
+    model5.eval()
+    model6.eval()
+    model7.eval()
+    model8.eval()
+    model9.eval()
 
     if torch.cuda.is_available():
         model1.to('cuda')
         model2.to('cuda')
         model3.to('cuda')
         model4.to('cuda')
+        model5.to('cuda')
+        model6.to('cuda')
+        model7.to('cuda')
+        model8.to('cuda')
+        model9.to('cuda')
 
     # Preprocess the image
     preprocess = transforms.Compose([
@@ -60,12 +50,18 @@ def getESR(modelName, iters):
     count2 = 0
     count3 = 0
     count4 = 0
+    count5 = 0
+    count6 = 0
+    count7 = 0
+    count8 = 0
+    count9 = 0
+    lablesCF = np.zeros(shape=(7, 1000), dtype=int)
+    lablesOD = np.zeros(shape=(2, 91), dtype=int)
 
 
     directory = 'samples/{}/transferable tests/iters_{}'.format(modelName, iters)
-    org_directory = 'samples/{}/org'.format(modelName)
 
-    lables = np.zeros(shape=(4, 10), dtype=int)
+    org_directory = 'samples/{}/org'.format(modelName)
     for root, dirs, files in os.walk(directory):
         if len(files) == 0:
             continue
@@ -98,35 +94,71 @@ def getESR(modelName, iters):
                 output2 = model2(input_batch)
                 output3 = model3(input_batch)
                 output4 = model4(input_batch)
+                output5 = model5(input_batch)
+                output6 = model6(input_batch)
+                output7 = model7(input_batch)
+                output8 = model8(input_batch)
+                output9 = model9(input_batch)
 
             _, predicted1 = torch.topk(output1.data, k=5)
             _, predicted2 = torch.topk(output2.data, k=5)
             _, predicted3 = torch.topk(output3.data, k=5)
             _, predicted4 = torch.topk(output4.data, k=5)
+            _, predicted5 = torch.topk(output5.data, k=5)
+            _, predicted6 = torch.topk(output6.data, k=5)
+            _, predicted7 = torch.topk(output7.data, k=5)
 
             if predicted1[0][0].item() != predicted1[1][0].item():
                 count1 += 1
-                lables[0, predicted1[0][0].item()] = 1
+                lablesCF[0, predicted1[0][0].item()] = 1
             if predicted2[0][0].item() != predicted2[1][0].item():
                 count2 += 1
-                lables[1, predicted2[0][0].item()] = 1
+                lablesCF[1, predicted2[0][0].item()] = 1
             if predicted3[0][0].item() != predicted3[1][0].item():
                 count3 += 1
-                lables[2, predicted3[0][0].item()] = 1
+                lablesCF[2, predicted3[0][0].item()] = 1
             if predicted4[0][0].item() != predicted4[1][0].item():
                 count4 += 1
-                lables[3, predicted4[0][0].item()] = 1
+                lablesCF[3, predicted4[0][0].item()] = 1
+            if predicted5[0][0].item() != predicted5[1][0].item():
+                count5 += 1
+                lablesCF[4, predicted5[0][0].item()] = 1
+            if predicted6[0][0].item() != predicted6[1][0].item():
+                count6 += 1
+                lablesCF[5, predicted6[0][0].item()] = 1
+            if predicted7[0][0].item() != predicted7[1][0].item():
+                count7 += 1
+                lablesCF[6, predicted7[0][0].item()] = 1
 
-            # print(predicted1.cpu().numpy(), predicted2.cpu().numpy(), filename)
+            input_label8 = -1 if output8[0]['labels'].shape[0] == 0 else output8[0]['labels'][0].item()
+            org_label8 = -1 if output8[1]['labels'].shape[0] == 0 else output8[1]['labels'][0].item()
 
-        modelList = ['resnet50', 'vgg16', 'inception_v3', 'densenet161']
-        ESRs = [count1 / len(files), count2 / len(files), count3 / len(files), count4 / len(files)]
+            input_label9 = -1 if output9[0]['labels'].shape[0] == 0 else output9[0]['labels'][0].item()
+            org_label9 = -1 if output9[1]['labels'].shape[0] == 0 else output9[1]['labels'][0].item()
+
+            if input_label8 != org_label8:
+                count8 += 1
+                lablesOD[0, input_label8] = 1
+            if input_label9 != org_label9:
+                count9 += 1
+                lablesOD[1, input_label9] = 1
+
+
+        modelList = ['resnet50', 'resnet101', 'resnet152', 'vgg16', 'densenet161', 'inception_v3', 'vit_b_16',
+                     'fasterrcnn', 'maskrcnn']
+        ESRs = [count1 / len(files), count2 / len(files), count3 / len(files), count4 / len(files), count5 / len(files),
+                count6 / len(files), count7 / len(files), count8 / len(files), count9 / len(files)]
 
         for model, ESR in zip(modelList, ESRs):
             print('ESR on {}: {}'.format(model, ESR))
+
         print('--------------------------------------')
-        for model, lableNum in zip(modelList, np.sum(lables, axis=1)):
+        for model, lableNum in zip(modelList[:7], np.sum(lablesCF, axis=1)):
             print('lableNum of {}: {}'.format(model, lableNum))
+
+        for model, lableNum in zip(modelList[7:], np.sum(lablesOD, axis=1)):
+            print('lableNum of {}: {}'.format(model, lableNum))
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

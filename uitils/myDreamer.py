@@ -50,8 +50,8 @@ class myDreamer(Dreamer):
         else:
             image_parameter = deepcopy(image_parameter)
 
-        if image_parameter.optimizer is None:
 
+        if image_parameter.optimizer is None:
             image_parameter.get_optimizer(lr=lr, weight_decay=weight_decay)
 
         if self.transforms is None:

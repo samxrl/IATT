@@ -162,11 +162,11 @@ if __name__ == '__main__':
                         type=str,
                         help="Name of WSM")
     parser.add_argument("--epochs", "-epochs",
-                        default=10,
+                        default=50,
                         type=int,
                         help="num_epochs")
     parser.add_argument("--batch", "-batch",
-                        default=32,
+                        default=50,
                         type=int,
                         help="batch_size")
     parser.add_argument("--lr", "-lr",
@@ -177,7 +177,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     modelName = args.model
-
     num_epochs = args.epochs
     batch_size = args.batch
     learning_rate = args.lr

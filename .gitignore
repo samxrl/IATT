@@ -1,9 +1,14 @@
 venv
 uitils/__pycache__
 data
-cifar10/samples
 imagenet/data/val
-samples
+imagenet/samples
 .idea
 cifar10/model
+cifar10/samples
+SVHN/model
+SVHN/samples
+COCO/model
+COCO/samples
+COCO/data
 .gitignore

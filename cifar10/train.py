@@ -163,7 +163,7 @@ def train(modelName, num_epochs, batch_size, learning_rate):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", "-model",
-                        default='vgg16',
+                        default='resnet50',
                         type=str,
                         help="Name of WSM")
     parser.add_argument("--epochs", "-epochs",
@@ -182,7 +182,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     modelName = args.model
-
     num_epochs = args.epochs
     batch_size = args.batch
     learning_rate = args.lr

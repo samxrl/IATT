@@ -4,9 +4,9 @@ from PIL import Image
 import torch.nn as nn
 from torchvision import transforms
 import os
-from uitils.get_lable import get_lable
 from tqdm import tqdm
 import argparse
+import numpy as np
 
 def getModel(modelName):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -17,7 +17,7 @@ def getModel(modelName):
 
     model = myModels[modelName]
 
-    # 将原来的ResNet50的最后两层全连接层拿掉,替换成一个输出单元为10的全连接层
+    # Replace the original fully connected layer with a fully connected layer that has 10 output units.
     if modelName in ['resnet50', 'inception_v3']:
         inchannel = model.fc.in_features
         model.fc = nn.Linear(inchannel, 10)
@@ -65,6 +65,7 @@ def getESR(modelName, iters):
     directory = 'samples/{}/transferable tests/iters_{}'.format(modelName, iters)
 
     org_directory = 'samples/{}/org'.format(modelName)
+    lables = np.zeros(shape=(4, 10), dtype=int)
     for root, dirs, files in os.walk(directory):
         if len(files) == 0:
             continue
@@ -105,20 +106,25 @@ def getESR(modelName, iters):
 
             if predicted1[0][0].item() != predicted1[1][0].item():
                 count1 += 1
-            if predicted2[0][0].item() != predicted1[1][0].item():
+                lables[0, predicted1[0][0].item()] = 1
+            if predicted2[0][0].item() != predicted2[1][0].item():
                 count2 += 1
-            if predicted3[0][0].item() != predicted1[1][0].item():
+                lables[1, predicted2[0][0].item()] = 1
+            if predicted3[0][0].item() != predicted3[1][0].item():
                 count3 += 1
-            if predicted4[0][0].item() != predicted1[1][0].item():
+                lables[2, predicted3[0][0].item()] = 1
+            if predicted4[0][0].item() != predicted4[1][0].item():
                 count4 += 1
-
-            # print(predicted1.cpu().numpy(), predicted2.cpu().numpy(), filename)
+                lables[3, predicted4[0][0].item()] = 1
 
         modelList = ['resnet50', 'vgg16', 'inception_v3', 'densenet161']
         ESRs = [count1 / len(files), count2 / len(files), count3 / len(files), count4 / len(files)]
 
         for model, ESR in zip(modelList, ESRs):
             print('ESR on {}: {}'.format(model, ESR))
+        print('--------------------------------------')
+        for model, lableNum in zip(modelList[:7], np.sum(lables, axis=1)):
+            print('lableNum of {}: {}'.format(model, lableNum))
 
 
 if __name__ == '__main__':
