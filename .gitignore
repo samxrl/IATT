@@ -1,4 +1,5 @@
 venv
+.gitignore
 uitils/__pycache__
 data
 imagenet/data/val
@@ -11,4 +12,3 @@ SVHN/samples
 COCO/model
 COCO/samples
 COCO/data
-.gitignore
