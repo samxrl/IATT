@@ -1,6 +1,6 @@
 # IATT
 
-This is the official source code for ["IATT: Interpretation Analysis-based Transferable Test Generation for Convolutional Neural Networks"](https://dl.acm.org/doi/10.1145/3705301). IATT is an Interpretation Analysis based Transferable Test Generation Method for Convolutional Neural Networks. The workflow of IATT is illustrated in the following figure:
+This is the official source code for ["IATT: Interpretation Analysis-based Transferable Test Generation for Convolutional Neural Networks"](https://dl.acm.org/doi/10.1145/3705301). The workflow of IATT is illustrated in the following figure:
 
 ![The Workflow of IATT](/images/workflow.svg "The Workflow of IATT")
 
