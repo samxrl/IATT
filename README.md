@@ -178,3 +178,18 @@ python test_LPIPS.py --model <Name of WSM> --iters <Number of iterations>
 * `iters` : Transferable test inputs generated on which iteration, defaulting to `300`
 
 The average LPIPS of transferable test inputs will be printed in the terminal.
+
+## Citation
+
+If you find IATT useful in your research, please consider citing our paper:
+```
+@article{Xie2024IATT,
+author = {Xie, Ruilin and Chen, Xiang and He, Qifan and Li, Bixin and Cui, Zhanqi},
+title = {IATT: Interpretation Analysis based Transferable Test Generation for Convolutional Neural Networks},
+year = {2024},
+publisher = {Association for Computing Machinery},
+issn = {1049-331X},
+doi = {10.1145/3705301},
+journal = {ACM Trans. Softw. Eng. Methodol.}
+}
+```
